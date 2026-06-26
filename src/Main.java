@@ -206,7 +206,7 @@ public class Main {
                 System.out.println ("Digite o valor que deseja transferir: ");
                 float valorTransferencia = i.nextFloat ();
 
-                if (valorTransferencia < contaController.buscarNaCollection (numeroOrigem).getSaldo ()){
+                if (valorTransferencia >= contaController.buscarNaCollection (numeroOrigem).getSaldo ()){
                     System.out.println ("Saldo insuficiente");
                 }else{
                     contaController.transferir (numeroOrigem, numeroDestino,valorTransferencia);

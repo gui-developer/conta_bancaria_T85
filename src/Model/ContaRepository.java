@@ -7,7 +7,7 @@ public interface ContaRepository {
     public void listarTodas();
     public void cadastrar(Conta conta);
     public void procurarPorNumero(int numero);
-    public void atualizar(Conta conta);
+    public void atualizarDadosDaConta(Conta conta);
     public void deletar(int numero);
 
     //Métodos Bancários

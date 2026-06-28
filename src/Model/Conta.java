@@ -19,12 +19,12 @@ public class Conta {
 
     //Método que imprime todas as informações da conta
     public void Imprimir(){
+        System.out.println ("Titular: " +this.titular);
+        System.out.println ("Tipo de conta: " +this.tipo);
+        System.out.println ("Saldo R$: " +this.saldo);
         System.out.println ("Número da conta: " + this.numero);
         System.out.println ("Número da agencia: " + this.agencia);
-        System.out.println ("Tipo de conta: " +this.tipo);
-        System.out.println ("Titular: " +this.titular);
-        System.out.println ("Saldo R$: " +this.saldo);
-        System.out.println ("");
+        System.out.println (" ");
     }
 
 

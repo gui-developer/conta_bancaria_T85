@@ -40,10 +40,32 @@ public class Main {
             switch (opcao) {
                 //Criar conta
                 case 1:
-                    System.out.println ("Numero: ");
-                    int numero = i.nextInt ();
+                    System.out.println ("ID da conta: ");
+                    int idCadastro = i.nextInt ();
+                    System.out.println ("N° Agencia: ");
+                    int numeroAgenciaCadastro = i.nextInt ();
+                    i.nextLine (); //Limpeza do buffer
 
-                    //Listar Todas as contas
+                    System.out.println ("Nome do Titular: ");
+                    String titularCadastro = i.nextLine ();
+
+                    System.out.println ("Saldo inicial: ");
+                    float saldoInicialCadastro = i.nextFloat ();
+
+                    System.out.println ("[1]- conta corrente ou [2] - conta poupança");
+                    int tipoCadastro = i.nextInt ();
+
+                    Conta novaContaCadastro = fabricarConta (tipoCadastro, idCadastro,numeroAgenciaCadastro,titularCadastro,saldoInicialCadastro);
+
+                    if (novaContaCadastro != null){
+                        contaController.cadastrar (novaContaCadastro);
+                        System.out.println ("Conta cadastrada com sucesso!");
+                    }else{
+                        System.out.println ("Erro ao cadastrar a conta");
+                    }
+                    break;
+
+                //Listar Todas as contas
                 case 2:
                     contaController.listarTodas ();
                     break;
@@ -81,151 +103,133 @@ public class Main {
                             System.out.println ("Saldo: " + conta.getSaldo ());
 
                             // Dados novos
-                            System.out.println ("Numero da conta: ");
+                            System.out.println ("ID da conta ");
                             int novoNumeroConta = i.nextInt ();
                             i.nextLine (); //Limpeza do buffer
-                            System.out.println ("Numero da nova Agencia: ");
+                            System.out.println ("Novo N° da Agencia: ");
                             int novoNumeroAgencia = i.nextInt ();
                             i.nextLine (); //Limpeza do buffer
                             System.out.println ("Nome do Titular: ");
                             String nomeTitular = i.nextLine ();
                             i.nextLine (); //Limpeza do buffer
 
-                            System.out.println ("Tipo da conta: ");
-                            System.out.println ("[1] - Conta Corrente ");
-                            System.out.println ("[2] - Conta Poupança ");
+                            System.out.println ("Tipo da conta: [1] - Conta Corrente [2] - Conta Poupança ");
                             int escolhaTipoConta = i.nextInt ();
                             i.nextLine (); //Limpeza do buffer
 
-                            if (escolhaTipoConta == 1) {
-                                String tipoConta = "Corrente";
-                                System.out.println ("Digite o novo limite da conta corrente: ");
-                                float novoLimite = i.nextFloat ();
-                                ContaCorrente cc = new ContaCorrente (novoNumeroConta, novoNumeroAgencia, tipoConta, nomeTitular, guardaSaldo, novoLimite);
-                                contaController.atualizarDadosDaConta (cc);
+                            Conta novaConta = fabricarConta (escolhaTipoConta, novoNumeroConta, novoNumeroAgencia, nomeTitular, guardaSaldo);
+                            if (novaConta != null){
+                                contaController.atualizarDadosDaConta (novaConta);
                                 System.out.println ("Conta atualizada com sucesso!");
                                 break;
-                            } else if (escolhaTipoConta == 2) {
-                                String tipoConta = "Poupança";
-                                System.out.println ("Digite o novo aniversario da conta poupança: ");
-                                int novoAniversario = i.nextInt ();
-                                ContaPoupanca cp = new ContaPoupanca (novoNumeroConta, novoNumeroAgencia, tipoConta, nomeTitular, guardaSaldo, novoAniversario);
-                                contaController.atualizarDadosDaConta (cp);
-                                System.out.println ("Conta atualizada com sucesso!");
+                            }else {
+                                System.out.println ("Erro ao atualizar a conta");
                                 break;
-                            } else {
-                                System.out.println ("Escolha uma opção valida");
                             }
                         case 2:
                             System.out.println ("Digite qual dado você deseja atualizar");
-                            System.out.println ("[1] - Numero da conta");
-                            System.out.println ("[2] - Agencia");
+                            System.out.println ("[1] - Id da conta: ");
+                            System.out.println ("[2] - N° da agencia");
                             System.out.println ("[3] - Tipo da conta");
                             System.out.println ("[4] - Titular");
                             int opcaoAtualizarDado = i.nextInt ();
                             i.nextLine (); //Limpeza do buffer
 
                             switch (opcaoAtualizarDado) {
-                                case 1:
-                                    System.out.println ("Digite o novo numero da conta: ");
-                                    int novoNumero = i.nextInt ();
-                                    conta.setNumero (novoNumero);
+                                case 1: //Atualiza o ID da conta
+                                    System.out.println ("Digite Id da conta: ");
+                                    int novoIdConta = i.nextInt ();
+                                    conta.setNumero (novoIdConta);
                                     System.out.println ("Conta atualizada com sucesso!");
                                     break;
-                                case 2:
-                                    System.out.println ("Digite o novo numero da agencia: ");
+
+                                case 2: //Atualiza o N° da agência da conta
+                                    System.out.println ("Digite o N° da agencia: ");
                                     int novaAgencia = i.nextInt ();
                                     conta.setAgencia (novaAgencia);
                                     System.out.println ("Conta atualizada com sucesso!");
                                     break;
+
                                 case 3:
                                     // Dados da conta antiga
                                     String salvaTitular = conta.getTitular ();
-                                    int salvaNumeroConta = conta.getNumero ();
+                                    int salvaIdConta = conta.getNumero ();
                                     int salvaNumeroAgencia = conta.getAgencia ();
                                     String salvaTipoConta = conta.getTipo ();
 
-                                    System.out.println ("Tipo da conta:");
+                                    System.out.println ("Tipo da conta: [1] - Conta Corrente [2] - Conta Poupança ");
                                     int escolhaTipoContaCase2 = i.nextInt ();
                                     i.nextLine (); //Limpeza do buffer
-
-                                    if (escolhaTipoContaCase2 == 1) {
-                                        String tipoConta = "Corrente";
-                                        System.out.println ("Digite o novo limite da conta corrente: ");
-                                        float novoLimite = i.nextFloat ();
-                                        ContaCorrente cc = new ContaCorrente (salvaNumeroConta, salvaNumeroAgencia, tipoConta, salvaTitular, guardaSaldo, novoLimite);
-                                        contaController.atualizarDadosDaConta (cc);
-                                        System.out.println ("Conta atualizada com sucesso!");
+                                    if (escolhaTipoContaCase2 == 1){
+                                        System.out.println ("Digite o limite da conta: ");
+                                        float limite = i.nextFloat ();
+                                        Conta novaContaCorrente = new ContaCorrente (salvaIdConta, salvaNumeroAgencia, salvaTipoConta, salvaTitular, guardaSaldo, limite);
                                         break;
-                                    } else if (escolhaTipoContaCase2 == 2) {
-                                        String tipoConta = "Poupança";
-                                        System.out.println ("Digite o novo aniversario da conta poupança: ");
-                                        int novoAniversario = i.nextInt ();
-                                        ContaPoupanca cp = new ContaPoupanca (salvaNumeroAgencia, salvaNumeroAgencia, tipoConta, salvaTitular, guardaSaldo, novoAniversario);
-                                        contaController.atualizarDadosDaConta (cp);
-                                        System.out.println ("Conta atualizada com sucesso!");
+                                    }else if(escolhaTipoContaCase2 == 2){
+                                        System.out.println ("Digite o aniversario da conta: ");
+                                        int aniversario = i.nextInt ();
+                                        Conta novaContaPoupanca = new ContaPoupanca (salvaIdConta, salvaNumeroAgencia, salvaTipoConta, salvaTitular, guardaSaldo, aniversario);
                                         break;
-                                    } else {
-                                        System.out.println ("Escolha uma opção valida");
-                                    }
+                                }
+                                case 4:
+                                    System.out.println ("Digite o nome do titular: ");
+                                    String novoTitular = i.nextLine ();
+                                    conta.setTitular (novoTitular);
+                                    System.out.println ("Conta atualizada com sucesso!");
                                     break;
                             }
-                        }
+                            break;
+                    }
+                    break;
+                case 5://Apagar conta
+                    System.out.println ("Digite o ID da conta que deseja deletar: ");
+                    int idContaDeletar = i.nextInt ();
+                    contaController.deletar (idContaDeletar);
+                    break;
+                case 6://Método sacar
+                    System.out.println ("Digite o ID da conta que deseja sacar:");
+                    int idContaSaque = i.nextInt ();
+                    System.out.println ("Digite o valor que deseja sacar: ");
+                    float valorSaque = i.nextFloat ();
+                    contaController.sacar (idContaSaque, valorSaque);
+                    break;
 
-            case 5:
-                System.out.println ("Digite o numero da conta que deseja deletar: ");
-                int numeroContaDeletar = i.nextInt ();
-                contaController.deletar (numeroContaDeletar);
-                break;
+                case 7://Método depositar
+                    System.out.println ("Digite o ID da conta que deseja depositar:");
+                    int idContaDeposito = i.nextInt ();
+                    System.out.println ("Digite o valor que deseja depositar: ");
+                    float valorDeposito = i.nextFloat ();
+                    contaController.depositar (idContaDeposito, valorDeposito);
+                    break;
 
-            case 6:
-                System.out.println ("Digite o numero da conta que deseja sacar:");
-                int numeroContaSaque = i.nextInt ();
-                System.out.println ("Digite o valor que deseja sacar: ");
-                float valorSaque = i.nextFloat ();
-                contaController.sacar (numeroContaSaque, valorSaque);
-                break;
+                case 8://Método de transferência de conta para conta diferente
+                    System.out.println ("Digite o id da conta que deseja transferir:");
+                    int idOrigem = i.nextInt ();
+                    i.nextLine (); //Limpeza do buffer
 
-            case 7:
-                System.out.println ("Digite o numero da conta que deseja depositar:");
-                int numeroContaDeposito = i.nextInt ();
-                System.out.println ("Digite o valor que deseja depositar: ");
-                float valorDeposito = i.nextFloat ();
-                contaController.depositar (numeroContaDeposito, valorDeposito);
-                break;
+                    System.out.println ("Digite o id da conta que receberá o valor: ");
+                    int idDestino = i.nextInt ();
+                    i.nextLine (); //Limpeza do buffer
 
-            case 8:
-                System.out.println ("Digite o numero da conta que deseja transferir:");
-                int numeroOrigem = i.nextInt ();
-                i.nextLine (); //Limpeza do buffer
+                    System.out.println ("Digite o valor que deseja transferir: ");
+                    float valorTransferencia = i.nextFloat ();
 
-                System.out.println ("Digire o numero da conta que receberá o valor: ");
-                int numeroDestino = i.nextInt ();
-                i.nextLine (); //Limpeza do buffer
-
-                System.out.println ("Digite o valor que deseja transferir: ");
-                float valorTransferencia = i.nextFloat ();
-
-                if (valorTransferencia >= contaController.buscarNaCollection (numeroOrigem).getSaldo ()){
-                    System.out.println ("Saldo insuficiente");
-                }else{
-                    contaController.transferir (numeroOrigem, numeroDestino,valorTransferencia);
-                    System.out.println ("Transferência realizada com sucesso!");
-                }
-                break;
-
-
-            case 9:
-                System.out.println ("saindo do sistema...");
-                rodando = false;
-                break;
-            default:
-                System.out.println ("Escolha uma opção valida");
-                break;
+                    if (valorTransferencia > contaController.buscarNaCollection (idOrigem).getSaldo ()) {
+                        System.out.println ("Saldo insuficiente");
+                        break;
+                    } else {
+                        contaController.transferir (idOrigem, idDestino, valorTransferencia);
+                        break;
+                    }
+                    case 9://Encerra o sistema
+                    System.out.println ("saindo do sistema...");
+                    rodando = false;
+                    break;
+                    default:
+                    System.out.println ("Escolha uma opção valida");
+                    break;
             }
-
         }
-
     }
 
     public static void listarContas () {
@@ -257,5 +261,18 @@ public class Main {
 
         System.out.println ("Saldo: ");
         float saldo = i.nextFloat ();
+    }
+
+    public static Conta fabricarConta (int escolhaTipo, int numero, int agencia, String titular, float saldo) {
+        if (escolhaTipo == 1) {
+            System.out.println ("Digite o limite da conta corrente: ");
+            float limite = i.nextFloat ();
+            return new ContaCorrente (numero, agencia, "Corrente", titular, saldo, limite);
+        } else if (escolhaTipo == 2) {
+            System.out.println ("Digite o aniversario da conta poupança: ");
+            int aniversario = i.nextInt ();
+            return new ContaPoupanca (numero, agencia, "poupança", titular, saldo, aniversario);
+        }
+        return null;
     }
 }

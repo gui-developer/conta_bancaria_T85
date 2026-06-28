@@ -10,6 +10,13 @@ public class Main {
     private static final Scanner i = new Scanner (System.in);
     private static final ContaController contaController = new ContaController ();
 
+    // Paleta Cyberpunk
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_CIANO = "\u001B[96m";   // Azul neon brilhante
+    public static final String ANSI_ROSA = "\u001B[95m";    // Magenta/Pink neon
+    public static final String ANSI_AMARELO = "\u001B[93m"; // Amarelo elétrico
+    public static final String ANSI_VERDE = "\u001B[92m";   // Verde tipo "Matrix"
+
     static void main () {
         boolean rodando = true;
 
@@ -20,20 +27,23 @@ public class Main {
         contaController.cadastrar (c2);
 
         while (rodando){
-            System.out.println ("*************************");
-            System.out.println ("     BANCO OPERAÇÕES     ");
-            System.out.println ("*************************");
-            System.out.println ("1 - Criar conta");
-            System.out.println ("2 - Listar todas as Contas");
-            System.out.println ("3 - Buscar conta por numero");
-            System.out.println ("4 - Atualizar dados da conta");
-            System.out.println ("5 - Apagar conta");
-            System.out.println ("6 - sacar");
-            System.out.println ("7 - Depositar ");
-            System.out.println ("8 - Transferir valores entre contas ");
-            System.out.println ("9 - sair ");
-            System.out.println ("*************************************");
-            System.out.println ("Entre com a opção desejada: ");
+            System.out.println (ANSI_CIANO + "*************************************" + ANSI_RESET);
+            System.out.println (ANSI_ROSA +  "         BANCO OPERAÇÕES             " + ANSI_RESET);
+            System.out.println (ANSI_CIANO + "*************************************" + ANSI_RESET);
+
+// Destacando o número em amarelo e o texto em ciano
+            System.out.println (ANSI_AMARELO + "1 " + ANSI_RESET + "- " + ANSI_CIANO + "Criar conta" + ANSI_RESET);
+            System.out.println (ANSI_AMARELO + "2 " + ANSI_RESET + "- " + ANSI_CIANO + "Listar todas as Contas" + ANSI_RESET);
+            System.out.println (ANSI_AMARELO + "3 " + ANSI_RESET + "- " + ANSI_CIANO + "Buscar conta por numero" + ANSI_RESET);
+            System.out.println (ANSI_AMARELO + "4 " + ANSI_RESET + "- " + ANSI_CIANO + "Atualizar dados da conta" + ANSI_RESET);
+            System.out.println (ANSI_AMARELO + "5 " + ANSI_RESET + "- " + ANSI_CIANO + "Deletar conta" + ANSI_RESET);
+            System.out.println (ANSI_AMARELO + "6 " + ANSI_RESET + "- " + ANSI_CIANO + "Sacar" + ANSI_RESET);
+            System.out.println (ANSI_AMARELO + "7 " + ANSI_RESET + "- " + ANSI_CIANO + "Depositar" + ANSI_RESET);
+            System.out.println (ANSI_AMARELO + "8 " + ANSI_RESET + "- " + ANSI_CIANO + "Transferir" + ANSI_RESET);
+            System.out.println (ANSI_AMARELO + "9 " + ANSI_RESET + "- " + ANSI_CIANO + "Sair" + ANSI_RESET);
+
+            System.out.println (ANSI_CIANO + "*************************************" + ANSI_RESET);
+            System.out.print (ANSI_VERDE + "Entre com a opção desejada: " + ANSI_RESET);
             int opcao = i.nextInt ();
 
 
@@ -164,11 +174,13 @@ public class Main {
                                         System.out.println ("Digite o limite da conta: ");
                                         float limite = i.nextFloat ();
                                         Conta novaContaCorrente = new ContaCorrente (salvaIdConta, salvaNumeroAgencia, salvaTipoConta, salvaTitular, guardaSaldo, limite);
+                                        contaController.atualizarDadosDaConta (novaContaCorrente);
                                         break;
                                     }else if(escolhaTipoContaCase2 == 2){
                                         System.out.println ("Digite o aniversario da conta: ");
                                         int aniversario = i.nextInt ();
                                         Conta novaContaPoupanca = new ContaPoupanca (salvaIdConta, salvaNumeroAgencia, salvaTipoConta, salvaTitular, guardaSaldo, aniversario);
+                                        contaController.atualizarDadosDaConta (novaContaPoupanca);
                                         break;
                                 }
                                 case 4:
